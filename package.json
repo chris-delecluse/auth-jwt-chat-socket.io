@@ -1,0 +1,46 @@
+{
+  "name": "test-chat",
+  "type": "commonjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node -r ts-node/register -r tsconfig-paths/register ./src/app.ts",
+    "dev": "nodemon",
+    "test": "ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine"
+  },
+  "keywords": [],
+  "author": "Chris",
+  "license": "ISC",
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "./src"
+    ],
+    "exec": "node -r ts-node/register -r tsconfig-paths/register ./src/app.ts",
+    "ext": "ts, js"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.7.3",
+    "typeorm": "^0.3.7"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/node": "^18.0.0",
+    "nodemon": "^2.0.18",
+    "ts-node": "^10.8.1",
+    "tsconfig-paths": "^4.0.0",
+    "typescript": "^4.7.4"
+  }
+}
