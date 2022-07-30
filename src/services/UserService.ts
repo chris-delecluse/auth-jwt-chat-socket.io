@@ -9,20 +9,21 @@ export class UserService {
         this.repository = AppDataSource.getRepository(Users);
     }
 
-    async getOneByEmail(email: string): Promise<Users | null> {
+    getOneByEmail = async (email: string): Promise<Users | null> => {
         return await this.repository.findOneBy({email: email});
-    }
+    };
 
-    async insertOne(username: string, email: string, password: string): Promise<InsertResult> {
+    insertOne = async (firstname: string, lastname: string, email: string, password: string): Promise<InsertResult> => {
         return await AppDataSource
             .createQueryBuilder()
             .insert()
             .into(Users)
             .values({
-                name: username,
+                firstname: firstname,
+                lastname: lastname,
                 email: email,
                 password: password
             })
             .execute();
-    }
+    };
 }

@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
 import { Users } from "entities/Users";
-import { UserMessages } from "entities/UserMessages";
+import { Token } from "entities/Token";
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ export const AppDataSource = new DataSource({
     logging: true,
     entities: [
         Users,
-        UserMessages
+        Token
     ],
     subscribers: [],
     migrations: []
