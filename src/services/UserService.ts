@@ -1,28 +1,47 @@
-import { Users } from "entities/Users";
+import { Users }                    from "entities/Users";
 import { InsertResult, Repository } from "typeorm";
-import { AppDataSource } from "data-source";
+import { AppDataSource }            from "data-source";
+import { Roles }                    from "entities/Roles";
 
 export class UserService {
-    repository: Repository<Users>;
+    private repository: Repository<Users>;
 
     constructor() {
         this.repository = AppDataSource.getRepository(Users);
     }
 
-    async getOneByEmail(email: string): Promise<Users | null> {
-        return await this.repository.findOneBy({email: email});
-    }
+    getOneByEmail = async (email: string): Promise<Users | null> => {
+        return await this.repository.findOne({
+            where: {email: email},
+            relations: {
+                role: true,
+                token: true
+            }
+        });
+    };
 
-    async insertOne(username: string, email: string, password: string): Promise<InsertResult> {
+    getOneById = async (id: number): Promise<Users | null> => {
+        return await this.repository.findOne({
+            where: {id: id},
+            relations: {
+                role: true,
+                token: true
+            }
+        });
+    };
+
+    insertOne = async (firstname: string, lastname: string, email: string, password: string, role: Roles): Promise<InsertResult> => {
         return await AppDataSource
             .createQueryBuilder()
             .insert()
             .into(Users)
             .values({
-                name: username,
+                firstname: firstname,
+                lastname: lastname,
                 email: email,
-                password: password
+                password: password,
+                role: role
             })
             .execute();
-    }
+    };
 }

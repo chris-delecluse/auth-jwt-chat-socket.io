@@ -1,14 +1,18 @@
-import { Column, Entity } from "typeorm";
-import { Entities } from "entities/Entities";
+import { Column, Entity, ManyToOne, OneToOne } from "typeorm";
+import { Entities }                            from "entities/Entities";
+import { Roles }                               from "entities/Roles";
+import { Tokens }                              from "entities/Tokens";
 
 @Entity()
 export class Users extends Entities {
-    constructor(name: string, email: string, password: string) {
+    constructor(firstname: string, lastname: string, email: string, password: string, role: Roles) {
         super();
 
-        this.name     = name;
-        this.email    = email;
-        this.password = password;
+        this.firstname = firstname;
+        this.lastname  = lastname;
+        this.email     = email;
+        this.password  = password;
+        this.role      = role;
     }
 
     @Column({
@@ -16,7 +20,14 @@ export class Users extends Entities {
         length: 512,
         unique: true
     })
-    name: string;
+    firstname: string;
+
+    @Column({
+        type: "varchar",
+        length: 512,
+        unique: true
+    })
+    lastname: string;
 
     @Column({
         type: "varchar",
@@ -30,4 +41,10 @@ export class Users extends Entities {
         length: 1000
     })
     password: string;
+
+    @ManyToOne(() => Roles, roles => roles.users)
+    role: Roles;
+
+    @OneToOne(() => Tokens, token => token.user)
+    token!: Tokens;
 }

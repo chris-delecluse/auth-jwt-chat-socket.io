@@ -1,14 +1,18 @@
 import express, { Request, Response } from "express";
-import { UserController } from "controllers/UserController";
-import { UserService } from "services/UserService";
+import { AuthController }             from "controllers/AuthController";
+import { UserService }                from "services/UserService";
+import { TokenService }               from "services/TokenService";
+import { RoleService }                from "services/RoleService";
 
 const route = express();
 
 const userService    = new UserService();
-const userController = new UserController(userService);
+const tokenService   = new TokenService();
+const roleService    = new RoleService();
+const authController = new AuthController(userService, tokenService, roleService);
 
 route.post("/register", async (req: Request, res: Response) => {
-    await userController.register(req, res);
+    await authController.register(req, res);
 });
 
 module.exports = route;
