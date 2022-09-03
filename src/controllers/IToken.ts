@@ -1,5 +1,5 @@
 export interface IToken {
-    id: number,
+    id: string,
     firstname: string,
     lastname: string,
     role: {

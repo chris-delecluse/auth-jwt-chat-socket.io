@@ -11,7 +11,7 @@ export class Permissions extends Entities {
         this.role       = role;
     }
 
-    @Column()
+    @Column({length: 200})
     permission!: string;
 
     @ManyToOne(() => Roles, roles => roles.permission)

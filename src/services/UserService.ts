@@ -20,7 +20,7 @@ export class UserService {
         });
     };
 
-    getOneById = async (id: number): Promise<Users | null> => {
+    getOneById = async (id: string): Promise<Users | null> => {
         return await this.repository.findOne({
             where: {id: id},
             relations: {

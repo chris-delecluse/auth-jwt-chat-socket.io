@@ -1,17 +1,14 @@
 import { UserService }       from "services/UserService";
 import { TokenService }      from "services/TokenService";
 import { Request, Response } from "express";
-import { verify }            from "jsonwebtoken";
-import path                  from "path";
-import fs                    from "fs";
 import { IToken }            from "controllers/IToken";
 import { TokenUtils }        from "utils/TokenUtils";
 import { Users }             from "entities/Users";
 import { throwError }        from "exceptions/error";
 
 export class TokenController {
-    userService: UserService;
-    tokenService: TokenService;
+    private userService: UserService;
+    private tokenService: TokenService;
 
     constructor(userService: UserService, tokenService: TokenService) {
         this.userService  = userService;
@@ -19,14 +16,8 @@ export class TokenController {
     }
 
     refreshToken = async (req: Request, res: Response): Promise<Response> => {
-        const authHeader = req.headers["authorization"];
-        const token      = authHeader && authHeader.split(" ")[1];
-
-        if (token == null) return res.status(401).json({message: "error: token not provided"});
-
-        const publicKey: Buffer = fs.readFileSync(path.join(__dirname, "../../public.pem"));
-
-        const verifiedToken: IToken = verify(token, publicKey) as IToken;
+        const jwtUtils: TokenUtils  = new TokenUtils();
+        const verifiedToken: IToken = await jwtUtils.decryptUserJwt(req, res) as IToken;
 
         let user: Users | null = await this.userService.getOneById(verifiedToken.id);
 
@@ -50,7 +41,7 @@ export class TokenController {
 
     private addOrUpdateTokenInDatabase = async (user: Users, method: string): Promise<void> => {
         const tokenUtils: TokenUtils     = new TokenUtils();
-        const refreshToken: string       = tokenUtils.generateJwt(user, "365d");
+        const refreshToken: string       = tokenUtils.generateUserJwt(user, "365d");
         const refreshTokenExpireIn: Date = tokenUtils.addOneYearToADate();
 
         switch (method) {

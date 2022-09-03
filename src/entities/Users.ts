@@ -1,13 +1,21 @@
-import { Column, Entity, ManyToOne, OneToOne } from "typeorm";
-import { Entities }                            from "entities/Entities";
-import { Roles }                               from "entities/Roles";
-import { Tokens }                              from "entities/Tokens";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
+import { Roles }                                                                                  from "entities/Roles";
+import {
+    Tokens
+}                                                                                                 from "entities/Tokens";
 
 @Entity()
-export class Users extends Entities {
+export class Users {
     constructor(firstname: string, lastname: string, email: string, password: string, role: Roles) {
-        super();
-
         this.firstname = firstname;
         this.lastname  = lastname;
         this.email     = email;
@@ -15,23 +23,33 @@ export class Users extends Entities {
         this.role      = role;
     }
 
+    // mixin pour extends (ts)
+    @PrimaryGeneratedColumn("uuid")
+    id!: string
+
+    @CreateDateColumn()
+    createAt!: Date;
+
+    @UpdateDateColumn()
+    updateAt!: Date;
+
     @Column({
         type: "varchar",
-        length: 512,
+        length: 256,
         unique: true
     })
     firstname: string;
 
     @Column({
         type: "varchar",
-        length: 512,
+        length: 256,
         unique: true
     })
     lastname: string;
 
     @Column({
         type: "varchar",
-        length: 512,
+        length: 256,
         unique: true
     })
     email: string;

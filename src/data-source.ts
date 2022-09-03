@@ -4,7 +4,8 @@ import dotenv          from "dotenv";
 import { Users }       from "entities/Users";
 import { Roles }       from "entities/Roles";
 import { Permissions } from "entities/Permissions";
-import { Tokens }       from "entities/Tokens";
+import { Tokens }      from "entities/Tokens";
+import { Messages }    from "entities/Messages";
 
 dotenv.config();
 
@@ -17,11 +18,13 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: true,
     logging: true,
+    uuidExtension: "pgcrypto",
     entities: [
         Users,
         Roles,
         Permissions,
-        Tokens
+        Tokens,
+        Messages
     ],
     subscribers: [],
     migrations: []

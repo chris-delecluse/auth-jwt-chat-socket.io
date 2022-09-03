@@ -14,7 +14,7 @@ export class InitializeDatabase {
 
     constructor(dev: boolean) {
         if (dev) {
-            this.insertData();
+            this.insertData().then();
         }
     }
 

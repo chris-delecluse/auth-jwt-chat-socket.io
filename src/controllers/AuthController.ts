@@ -6,6 +6,7 @@ import { TokenService }      from "services/TokenService";
 import { RoleService }       from "services/RoleService";
 import { Users }             from "entities/Users";
 import { Roles }             from "entities/Roles";
+import etag                  from "etag";
 
 export class AuthController {
     private userService: UserService;
@@ -21,9 +22,12 @@ export class AuthController {
     getConnected = async (req: Request, res: Response): Promise<Response> => {
         const authUtils: TokenUtils = new TokenUtils();
 
+        const test = etag('hello')
+
+        console.log(test);
+
         try {
             const {email, password} = req.body;
-
             if (!email) return this.missingParameterError(res);
             if (!password) return this.missingParameterError(res);
 
@@ -31,11 +35,12 @@ export class AuthController {
 
             if (!user) return res.status(400).json({message: "email or password is incorrect"});
 
-            const accessToken: string = authUtils.generateJwt(user, "1800s");
+            const accessToken: string = authUtils.generateUserJwt(user, "1800s");
 
             return res
                 .status(200)
                 .json({
+                    userId: user.id,
                     accessTokenExpireIn: "1800s",
                     accessToken
                 });

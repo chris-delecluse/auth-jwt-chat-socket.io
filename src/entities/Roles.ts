@@ -1,7 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Permissions }                                                                        from "entities/Permissions";
-import { Entities }                                                    from "entities/Entities";
-import { Users }                                                       from "entities/Users";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Permissions }                                                   from "entities/Permissions";
+import { Entities }                                                      from "entities/Entities";
+import { Users }                                                         from "entities/Users";
 
 @Entity()
 export class Roles extends Entities {
@@ -14,7 +14,10 @@ export class Roles extends Entities {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({unique: true})
+    @Column({
+        unique: true,
+        length: 100
+    })
     role!: string;
 
     @OneToMany(() => Permissions, permission => permission.role)
