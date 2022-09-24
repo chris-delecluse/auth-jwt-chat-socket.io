@@ -22,10 +22,6 @@ export class AuthController {
     getConnected = async (req: Request, res: Response): Promise<Response> => {
         const authUtils: TokenUtils = new TokenUtils();
 
-        const test = etag('hello')
-
-        console.log(test);
-
         try {
             const {email, password} = req.body;
             if (!email) return this.missingParameterError(res);

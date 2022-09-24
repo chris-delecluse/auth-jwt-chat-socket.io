@@ -3,15 +3,14 @@ import {
     CreateDateColumn,
     Entity,
     ManyToOne,
+    OneToMany,
     OneToOne,
-    PrimaryColumn,
     PrimaryGeneratedColumn,
     UpdateDateColumn
-} from "typeorm";
-import { Roles }                                                                                  from "entities/Roles";
-import {
-    Tokens
-}                                                                                                 from "entities/Tokens";
+}                   from "typeorm";
+import { Roles }    from "entities/Roles";
+import { Tokens }   from "entities/Tokens";
+import { Messages } from "entities/Messages";
 
 @Entity()
 export class Users {
@@ -25,7 +24,7 @@ export class Users {
 
     // mixin pour extends (ts)
     @PrimaryGeneratedColumn("uuid")
-    id!: string
+    id!: string;
 
     @CreateDateColumn()
     createAt!: Date;
@@ -65,4 +64,7 @@ export class Users {
 
     @OneToOne(() => Tokens, token => token.user)
     token!: Tokens;
+
+    @OneToMany(() => Messages, message => message.user)
+    message!: Messages;
 }

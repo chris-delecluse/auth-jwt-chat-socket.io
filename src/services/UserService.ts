@@ -25,7 +25,8 @@ export class UserService {
             where: {id: id},
             relations: {
                 role: true,
-                token: true
+                token: true,
+                message: true
             }
         });
     };

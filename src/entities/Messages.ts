@@ -4,7 +4,7 @@ import { Users }                     from "entities/Users";
 
 @Entity()
 export class Messages extends Entities {
-    constructor(text: string, user: Users, toUserId: number) {
+    constructor(text: string, user: Users, toUserId: string) {
         super();
 
         this.text     = text;
@@ -19,5 +19,5 @@ export class Messages extends Entities {
     user: Users;
 
     @Column()
-    toUserId: number;
+    toUserId: string;
 }

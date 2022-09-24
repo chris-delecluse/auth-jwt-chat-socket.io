@@ -10,14 +10,10 @@ export class MessageService {
         this.repository = AppDataSource.getRepository(Messages);
     }
 
-    getAllByMessageTo = async (to: number) => {
-        return await this.repository.find({where: {toUserId: to}});
-    };
-
-    insertOne = async (message: string, from: Users, to: number) => {
+    insertOne = async (message: string, userFrom: Users, to: string) => {
         return await this.repository.insert({
             text: message,
-            user: from,
+            user: userFrom,
             toUserId: to
         });
     };
